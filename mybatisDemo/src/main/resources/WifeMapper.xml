@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- 定义名字空间 -->
+<mapper namespace="wifes">
+   <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+       insert into wifes(hid,wname) values (#{husband.id},#{wname})
+   </insert>
+    <select id="selectone" resultMap="rmwife">
+         select
+          h.id hid,
+          h.hname hhname,
+          w.wname wwname
+          from wifes w left outer join husbands h on w.hid=h.id
+          where w.hid=#{hid}
+
+    </select>
+
+
+    <resultMap id="rmwife" type="_Wife">
+        <result column="wwname" property="wname" />
+        <association property="husband" javaType="_Husband" column="id">
+            <id column="hid" property="id" />
+            <result column="hhname" property="hname" />
+        </association>
+    </resultMap>
+
+</mapper>
